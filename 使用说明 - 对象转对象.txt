@@ -1,0 +1,48 @@
+﻿using Utils;
+
+namespace XYSJ_Test
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+
+            Console.WriteLine("脚本分析&数据解析");
+
+
+
+            #region 数据解析——对象转对象
+
+
+            var orgJson = "{\"Name_Org\":\"JZM\",\"Age_Org\":\"18\"}"; // JSON字符串
+            var aimJson = "{\"Name_Aim\":\"\",\"Age_Aim\":\"\"}"; // JSON字符串
+
+            /// 1：源Key->目标Key
+            /// 2：源Key->目标Value
+            /// 3：源Value->目标Key
+            /// 4：源Value->目标Value
+            List<JsonMapping> jsonMappings = new List<JsonMapping>();
+            jsonMappings.Add(new JsonMapping("root.Name_Aim", "root.Name_Org", 3));
+            jsonMappings.Add(new JsonMapping("root.Age_Aim", "root.Age_Org", 3));
+            jsonMappings.Add(new JsonMapping("root.Name_Aim", "root.Name_Org", 4));
+            jsonMappings.Add(new JsonMapping("root.Age_Aim", "root.Age_Org", 4));
+
+
+            JsonTranferUtil jsonTranferUtil = new JsonTranferUtil(orgJson, aimJson, jsonMappings);
+            String tranJsonResult = jsonTranferUtil.TranJson();
+
+            Console.WriteLine("******************结果 **********************");
+
+            Console.WriteLine("The Result:" + tranJsonResult);
+
+            #endregion
+
+
+
+
+            Console.ReadLine();
+
+        }
+
+    }
+}

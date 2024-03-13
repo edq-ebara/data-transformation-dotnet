@@ -1,0 +1,50 @@
+﻿using Newtonsoft.Json;
+using Utils;
+
+namespace XYSJ_Test
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+
+            Console.WriteLine("脚本分析&数据解析");
+
+
+
+            #region 数据解析——数组转对象
+
+
+            String orgJson = "[{\"Name\":\"11\",\"Value\":\"22\"},{\"Name\":\"aa\",\"Value\":\"bb\"}]"; // JSON字符串
+            String aimJson = "{\"Name_Org\":\"JZM\"}"; // JSON字符串
+
+
+            /// 1：源Key->目标Key
+            /// 2：源Key->目标Value
+            /// 3：源Value->目标Key
+            /// 4：源Value->目标Value
+            List<JsonMapping> jsonMappings = new List<JsonMapping>();
+            jsonMappings.Add(new JsonMapping("root", "root", 4));
+            jsonMappings.Add(new JsonMapping("root.Name_Org", "root[*].Name1", 3));
+            jsonMappings.Add(new JsonMapping("root.Name_Org", "root[*1].Value", 4));
+
+
+
+            JsonTranferUtil jsonTranferUtil = new JsonTranferUtil(orgJson, aimJson, jsonMappings);
+            var checkResult = jsonTranferUtil.CheckJsonMapping();
+
+            Console.WriteLine("******************结果 **********************");
+
+            Console.WriteLine("The Result:" +JsonConvert.SerializeObject(checkResult));
+
+            #endregion
+
+
+
+
+            Console.ReadLine();
+
+        }
+
+    }
+}
